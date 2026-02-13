@@ -1,32 +1,26 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "api/index.py",
-      "use": "@vercel/python"
-    }
-  ],
   "rewrites": [
     {
       "source": "/feed.xml",
-      "destination": "/api/index"
+      "destination": "/api/index.py"
     },
     {
       "source": "/feed",
-      "destination": "/api/index"
+      "destination": "/api/index.py"
     },
     {
       "source": "/rss",
-      "destination": "/api/index"
+      "destination": "/api/index.py"
     },
     {
       "source": "/api/feed",
-      "destination": "/api/index"
+      "destination": "/api/index.py"
     }
   ],
   "headers": [
     {
-      "source": "/api/index",
+      "source": "/api/index.py",
       "headers": [
         {
           "key": "Cache-Control",
