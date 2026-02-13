@@ -191,18 +191,28 @@ def handler(request):
         Deploy this file as api/feed.py in Vercel
         Access at: /api/feed or /feed.xml
     """
-    api_key = os.getenv('MOLTHUB_API_KEY')
-    submolt_id = os.getenv('MOLTHUB_SUBMOLT_ID', DEFAULT_SUBMOLT_ID)
-    
-    if not api_key:
-        return {
-            'statusCode': 500,
-            'body': json.dumps({'error': 'MOLTHUB_API_KEY not configured'}),
-            'headers': {'Content-Type': 'application/json'}
-        }
+    import logging
+    logging.basicConfig(level=logging.INFO)
+    logger = logging.getLogger(__name__)
     
     try:
+        api_key = os.getenv('MOLTHUB_API_KEY')
+        submolt_id = os.getenv('MOLTHUB_SUBMOLT_ID', DEFAULT_SUBMOLT_ID)
+        
+        logger.info(f"Handler called. API key present: {bool(api_key)}")
+        logger.info(f"Submolt ID: {submolt_id}")
+        
+        if not api_key:
+            logger.error("MOLTHUB_API_KEY not configured")
+            return {
+                'statusCode': 500,
+                'body': json.dumps({'error': 'MOLTHUB_API_KEY not configured'}),
+                'headers': {'Content-Type': 'application/json'}
+            }
+        
         rss = get_cached_or_fetch(submolt_id, api_key)
+        
+        logger.info(f"RSS generated successfully. Size: {len(rss)} bytes")
         
         return {
             'statusCode': 200,
@@ -215,12 +225,38 @@ def handler(request):
         }
         
     except Exception as e:
+        logger.exception("Error in handler")
         return {
             'statusCode': 500,
             'body': json.dumps({'error': str(e)}),
             'headers': {'Content-Type': 'application/json'}
         }
 
+
+# Alternative entry points for different Vercel runtimes
+app = handler
+
+# For Vercel Python runtime
+class Request:
+    def __init__(self, method='GET', headers=None, body=None):
+        self.method = method
+        self.headers = headers or {}
+        self.body = body
+
+# Handle different invocation styles
+def get_response():
+    """Get RSS response for various entry points"""
+    req = Request()
+    return handler(req)
+
+# For static generation (build time)
+def GET(request=None):
+    """Handle GET requests"""
+    return handler(request or Request())
+
+# Export for Vercel
+main = handler
+on_request = handler
 
 # For local testing
 if __name__ == "__main__":
