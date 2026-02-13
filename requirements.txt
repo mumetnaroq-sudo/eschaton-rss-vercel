@@ -1,0 +1,12 @@
+# Python dependencies for Eschaton RSS serverless function
+# Vercel uses Python 3.9 by default
+
+# No external dependencies required!
+# Uses only Python standard library:
+# - xml.etree.ElementTree for XML generation
+# - datetime for date handling
+# - os, re, glob for file operations
+
+# Optional: for enhanced functionality (uncomment if needed)
+# python-dateutil>=2.8.0  # Better date parsing
+# pytz>=2023.3            # Timezone handling

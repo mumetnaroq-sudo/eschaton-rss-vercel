@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "functions": {
+    "api/feed.py": {
+      "maxDuration": 10
+    }
+  },
+  "routes": [
+    {
+      "src": "/feed.xml",
+      "dest": "/api/feed"
+    },
+    {
+      "src": "/feed",
+      "dest": "/api/feed"
+    },
+    {
+      "src": "/rss",
+      "dest": "/api/feed"
+    },
+    {
+      "src": "/api/feed",
+      "methods": ["GET", "HEAD", "OPTIONS"]
+    }
+  ],
+  "headers": [
+    {
+      "source": "/api/feed",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300, s-maxage=300, stale-while-revalidate=86400"
+        }
+      ]
+    }
+  ],
+  "github": {
+    "enabled": true,
+    "autoAlias": true,
+    "silent": false
+  }
+}

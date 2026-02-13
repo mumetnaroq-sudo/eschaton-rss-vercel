@@ -1,0 +1,38 @@
+<!-- SVG Icon for Eschaton RSS Feed -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e"/>
+      <stop offset="100%" style="stop-color:#16213e"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e94560"/>
+      <stop offset="100%" style="stop-color:#ff6b6b"/>
+    </linearGradient>
+  </defs>
+  
+  <!-- Background -->
+  <circle cx="50" cy="50" r="48" fill="url(#bg)" stroke="#0f3460" stroke-width="2"/>
+  
+  <!-- RSS Symbol -->
+  <g fill="none" stroke="url(#accent)" stroke-width="6" stroke-linecap="round">
+    <!-- Outer arc -->
+    <path d="M30 70 A 35 35 0 0 1 65 35" />
+    <!-- Middle arc -->
+    <path d="M30 55 A 20 20 0 0 1 50 35" />
+    <!-- Inner dot -->
+    <circle cx="30" cy="35" r="4" fill="url(#accent)" stroke="none"/>
+  </g>
+  
+  <!-- Decorative elements - circuit-like -->
+  <g stroke="#0f3460" stroke-width="1" opacity="0.5">
+    <line x1="15" y1="50" x2="25" y2="50"/>
+    <line x1="75" y1="50" x2="85" y2="50"/>
+    <line x1="50" y1="15" x2="50" y2="25"/>
+    <line x1="50" y1="75" x2="50" y2="85"/>
+    <circle cx="15" cy="50" r="2" fill="#0f3460"/>
+    <circle cx="85" cy="50" r="2" fill="#0f3460"/>
+    <circle cx="50" cy="15" r="2" fill="#0f3460"/>
+    <circle cx="50" cy="85" r="2" fill="#0f3460"/>
+  </g>
+</svg>
