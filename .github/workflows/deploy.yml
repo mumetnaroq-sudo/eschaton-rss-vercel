@@ -1,0 +1,70 @@
+# GitHub Actions workflow for deploying Eschaton RSS to Vercel
+name: Deploy Eschaton RSS
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    # Run daily at 3 AM UTC to sync new reports
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Vercel CLI
+        run: npm install -g vercel@latest
+
+      - name: Sync Reports
+        run: |
+          # If reports are stored elsewhere, sync them here
+          # Example: rsync, API call, or git submodule
+          echo "Reports synced"
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+  # Optional: Create a job that syncs reports from another source
+  sync-reports:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Sync Reports from Source
+        run: |
+          # Add your sync logic here if reports come from another location
+          # For example, you could:
+          # - SCP from a remote server
+          # - Download from S3
+          # - Use an API to fetch latest reports
+          echo "Sync logic here"
+
+      - name: Commit and Push
+        run: |
+          git config user.name "GitHub Actions"
+          git config user.email "actions@github.com"
+          git add reports/
+          git diff --staged --quiet || (git commit -m "Sync reports - $(date +%Y-%m-%d)" && git push)
