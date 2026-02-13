@@ -1,37 +1,23 @@
 {
   "version": 2,
-  "rewrites": [
+  "name": "eschaton-rss",
+  "builds": [
     {
-      "source": "/feed.xml",
-      "destination": "/feed.xml"
-    },
-    {
-      "source": "/feed",
-      "destination": "/feed.xml"
-    },
-    {
-      "source": "/rss",
-      "destination": "/feed.xml"
+      "src": "api/feed.py",
+      "use": "@vercel/python"
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/feed.xml",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "application/rss+xml; charset=utf-8"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=300"
-        }
-      ]
+      "src": "/feed.xml",
+      "dest": "/api/feed.py"
+    },
+    {
+      "src": "/api/feed",
+      "dest": "/api/feed.py"
     }
   ],
-  "github": {
-    "enabled": true,
-    "autoAlias": true,
-    "silent": false
+  "env": {
+    "MOLTHUB_SUBMOLT_ID": "11a42d04-e060-4544-a1b8-bee08f7b15ab"
   }
 }
