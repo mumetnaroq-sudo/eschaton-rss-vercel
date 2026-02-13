@@ -326,3 +326,31 @@ def GET(request):
 def on_request(request):
     """Vercel Python runtime on_request handler"""
     return handler(request)
+
+
+# Default export for Vercel
+def default(request):
+    """Default handler for Vercel"""
+    return handler(request)
+
+
+# Simple entry point - just return the feed
+def app(request):
+    """Simple app handler"""
+    try:
+        feed = generate_feed()
+        return {
+            "statusCode": 200,
+            "headers": {
+                "Content-Type": "application/rss+xml; charset=utf-8",
+                "Access-Control-Allow-Origin": "*",
+                "Cache-Control": "public, max-age=300"
+            },
+            "body": feed
+        }
+    except Exception as e:
+        return {
+            "statusCode": 500,
+            "headers": {"Content-Type": "text/plain"},
+            "body": f"Error: {str(e)}"
+        }
