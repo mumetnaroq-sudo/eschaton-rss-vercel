@@ -6,22 +6,22 @@
       "use": "@vercel/python"
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/feed.xml",
-      "dest": "/api/index"
+      "source": "/feed.xml",
+      "destination": "/api/index"
     },
     {
-      "src": "/feed",
-      "dest": "/api/index"
+      "source": "/feed",
+      "destination": "/api/index"
     },
     {
-      "src": "/rss",
-      "dest": "/api/index"
+      "source": "/rss",
+      "destination": "/api/index"
     },
     {
-      "src": "/api/feed",
-      "dest": "/api/index"
+      "source": "/api/feed",
+      "destination": "/api/index"
     }
   ],
   "headers": [
