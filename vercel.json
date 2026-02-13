@@ -1,27 +1,32 @@
 {
   "version": 2,
-  "builds": [
+  "rewrites": [
     {
-      "src": "api/index.py",
-      "use": "@vercel/python"
+      "source": "/feed.xml",
+      "destination": "/feed.xml"
+    },
+    {
+      "source": "/feed",
+      "destination": "/feed.xml"
+    },
+    {
+      "source": "/rss",
+      "destination": "/feed.xml"
     }
   ],
-  "routes": [
+  "headers": [
     {
-      "src": "/feed.xml",
-      "dest": "/api/index.py"
-    },
-    {
-      "src": "/feed",
-      "dest": "/api/index.py"
-    },
-    {
-      "src": "/rss",
-      "dest": "/api/index.py"
-    },
-    {
-      "src": "/api/feed",
-      "dest": "/api/index.py"
+      "source": "/feed.xml",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/rss+xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=300"
+        }
+      ]
     }
   ],
   "github": {
